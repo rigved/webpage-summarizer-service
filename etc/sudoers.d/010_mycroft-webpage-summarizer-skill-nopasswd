@@ -1,0 +1,1 @@
+mycroft ALL=(ALL) NOPASSWD: /bin/systemctl restart pastebin_read_only.service, /bin/systemctl restart webpage_summarizer_and_pastebin.service
