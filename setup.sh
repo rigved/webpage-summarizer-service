@@ -38,5 +38,7 @@ if [[ ! -f ${webpage_summarizer_apiv1_path}/db.sqlite3 ]]; then
 fi
 
 # Restart the Daphne ASGI application servers
+/bin/systemctl enable webpage_summarizer_and_pastebin.service
+/bin/systemctl enable pastebin_read_only.service
 /bin/systemctl restart webpage_summarizer_and_pastebin.service
 /bin/systemctl restart pastebin_read_only.service
