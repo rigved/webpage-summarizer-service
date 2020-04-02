@@ -19,6 +19,16 @@
 ##############################################################################
 
 
+secrets="/opt/webpage_summarizer_service/apiv1/secrets"
+
+# Create the required folders and files
+/bin/mkdir -p "${secrets}"
+
+# Protect secret files
+/bin/chmod 300 ${secrets}
+/bin/chmod 600 ${secrets}/*
+/bin/chown -R mycroft:mycroft ${secrets}
+
 # Initial setup for the Django project and its Superuser
 cd /opt/webpage_summarizer_service/apiv1 || exit 1
 source /opt/venvs/mycroft-core/bin/activate
