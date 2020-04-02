@@ -22,14 +22,14 @@
 secrets="/opt/webpage_summarizer_service/apiv1/secrets"
 
 # Create the required folders and files
-mkdir -p "${secrets}"
-touch ~/.rnd
+/bin/mkdir -p "${secrets}"
+/usr/bin/touch ~/.rnd
 
 # Generate the Root CA Key
-openssl genrsa -out ${secrets}/rootCA.key 4096
+/usr/bin/openssl genrsa -out ${secrets}/rootCA.key 4096
 
 # Generate the Root CA Certificate
-openssl req -x509 -new -nodes \
+/usr/bin/openssl req -x509 -new -nodes \
     -key ${secrets}/rootCA.key \
     -sha512 \
     -days 36500 \
@@ -40,10 +40,10 @@ openssl req -x509 -new -nodes \
     -out ${secrets}/rootCA.crt
 
 # Generate the private key for mycroftai.shieldofachilles.in
-openssl genrsa -out ${secrets}/mycroftai.shieldofachilles.in.key 4096
+/usr/bin/openssl genrsa -out ${secrets}/mycroftai.shieldofachilles.in.key 4096
 
 # Generate the CSR for mycroftai.shieldofachilles.in
-openssl req -new -sha512 \
+/usr/bin/openssl req -new -sha512 \
     -key ${secrets}/mycroftai.shieldofachilles.in.key \
     -subj "/C=IN/ST=MH/O=Shield of Achilles/CN=mycroftai.shieldofachilles.in" \
     -reqexts SAN \
@@ -51,7 +51,7 @@ openssl req -new -sha512 \
     -out ${secrets}/mycroftai.shieldofachilles.in.csr
 
 # Generate the certificate for mycroftai.shieldofachilles.in
-openssl x509 -req \
+/usr/bin/openssl x509 -req \
     -in ${secrets}/mycroftai.shieldofachilles.in.csr \
     -CA ${secrets}/rootCA.crt \
     -CAkey ${secrets}/rootCA.key \
@@ -62,6 +62,6 @@ openssl x509 -req \
     -out ${secrets}/mycroftai.shieldofachilles.in.crt
 
 # Protect secret files
-chmod 300 ${secrets}
-chmod 600 ${secrets}/*
-chown -R mycroft:mycroft ${secrets}
+/bin/chmod 300 ${secrets}
+/bin/chmod 600 ${secrets}/*
+/bin/chown -R mycroft:mycroft ${secrets}

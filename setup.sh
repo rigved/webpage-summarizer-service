@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##############################################################################
-# update_password_and_token.sh
+# setup.sh
 # Copyright (C) 2020  Rigved Rakshit
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,24 +19,13 @@
 ##############################################################################
 
 
-webpage_summarizer_service_path="/opt/webpage_summarizer_service"
-apiv1="${webpage_summarizer_service_path}/apiv1"
-secrets="${apiv1}/secrets"
-scripts="${webpage_summarizer_service_path}/scripts"
-
 # Create the required folders
-mkdir -p "${secrets}"
+/bin/mkdir -p /opt/webpage_summarizer_service /etc/sudoers.d
 
-# Setup a random Django Superuser password
-cd ${scripts} || exit 1
-strings /dev/urandom | grep -o '[[:graph:]]' | head -n 128 | tr -d '\n' | head -c 64 | xargs -0 -I{} ./update_superuser_password.exp {}
+# Copy the code to the correct folders and set the correct ownership
+/bin/cp -rv ./src/{etc,opt} /
+/bin/chown -R mycroft:mycroft /opt/webpage_summarizer_service
 
-# Generate a random Django Rest Framework API Token
-cd ${apiv1} || exit 1
-source /opt/venvs/mycroft-core/bin/activate
-python manage.py drf_create_token -r mycroftai | awk '{print $3}' > ${secrets}/api.token
-
-# Protect secret files
-chmod 300 ${secrets}
-chmod 600 ${secrets}/*
-chown -R mycroft:mycroft ${secrets}
+# Restart the Daphne ASGI application servers
+/bin/systemctl restart webpage_summarizer_and_pastebin.service
+/bin/systemctl restart pastebin_read_only.service
