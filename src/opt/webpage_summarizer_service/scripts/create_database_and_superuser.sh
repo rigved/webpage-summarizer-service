@@ -21,13 +21,13 @@
 
 secrets="/opt/webpage_summarizer_service/apiv1/secrets"
 
-# Create the required folders and files
-/bin/mkdir -p "${secrets}"
-
-# Protect secret files
-/bin/chmod 300 ${secrets}
-/bin/chmod 600 ${secrets}/*
-/bin/chown -R mycroft:mycroft ${secrets}
+# Create the required folder in case it is missing
+if [[ ! -d ${secrets} ]]; then
+    /bin/mkdir -p "${secrets}"
+    # Protect the secret folder
+    /bin/chmod 300 ${secrets}
+    /bin/chown -v mycroft:mycroft ${secrets}
+fi
 
 # Initial setup for the Django project and its Superuser
 cd /opt/webpage_summarizer_service/apiv1 || exit 1

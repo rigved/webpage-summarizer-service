@@ -62,6 +62,6 @@ secrets="/opt/webpage_summarizer_service/apiv1/secrets"
     -out ${secrets}/mycroftai.shieldofachilles.in.crt
 
 # Protect secret files
-/bin/chmod 300 ${secrets}
-/bin/chmod 600 ${secrets}/*
-/bin/chown -R mycroft:mycroft ${secrets}
+/bin/chmod -v 300 ${secrets}
+/bin/chmod -v 600 ${secrets}/*
+/bin/chown -Rv mycroft:mycroft ${secrets}
