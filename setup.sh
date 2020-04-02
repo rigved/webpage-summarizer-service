@@ -19,12 +19,23 @@
 ##############################################################################
 
 
+webpage_summarizer_service_path="/opt/webpage_summarizer_service"
+webpage_summarizer_apiv1_path="${webpage_summarizer_service_path}/apiv1"
+
 # Create the required folders
-/bin/mkdir -p /opt/webpage_summarizer_service /etc/sudoers.d
+/bin/mkdir -p ${webpage_summarizer_service_path} /etc/sudoers.d
 
 # Copy the code to the correct folders and set the correct ownership
 /bin/cp -rv ./src/{etc,opt} /
-/bin/chown -R mycroft:mycroft /opt/webpage_summarizer_service
+/bin/chown -Rv mycroft:mycroft ${webpage_summarizer_service_path}
+
+# Setup the Django project
+if [[ ! -f ${webpage_summarizer_apiv1_path}/db.sqlite3 ]]; then
+    webpage_summarizer_scripts_path="${webpage_summarizer_service_path}/scripts"
+    ${webpage_summarizer_scripts_path}/create_database_and_superuser.sh
+    ${webpage_summarizer_scripts_path}/update_password_and_token.sh
+    ${webpage_summarizer_scripts_path}/update_certificates.sh
+fi
 
 # Restart the Daphne ASGI application servers
 /bin/systemctl restart webpage_summarizer_and_pastebin.service
