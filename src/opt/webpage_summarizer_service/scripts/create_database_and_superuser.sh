@@ -19,18 +19,23 @@
 ##############################################################################
 
 
-secrets="/opt/webpage_summarizer_service/apiv1/secrets"
+webpage_summarizer_service_path="/opt/webpage_summarizer_service"
+webpage_summarizer_service_apiv1_path="${webpage_summarizer_service_path}/apiv1"
+webpage_summarizer_service_secrets_path="${webpage_summarizer_service_apiv1_path}/secrets"
 
 # Create the required folder in case it is missing
-if [[ ! -d ${secrets} ]]; then
-    /bin/mkdir -p "${secrets}"
+if [[ ! -d ${webpage_summarizer_service_secrets_path} ]]; then
+    /bin/mkdir -p "${webpage_summarizer_service_secrets_path}"
     # Protect the secret folder
-    /bin/chmod 300 ${secrets}
-    /bin/chown -v mycroft:mycroft ${secrets}
+    /bin/chmod 300 ${webpage_summarizer_service_secrets_path}
+    /bin/chown -Rv mycroft:mycroft ${webpage_summarizer_service_path}
 fi
 
 # Initial setup for the Django project and its Superuser
-cd /opt/webpage_summarizer_service/apiv1 || exit 1
+cd ${webpage_summarizer_service_apiv1_path} || exit 1
 source /opt/venvs/mycroft-core/bin/activate
 python manage.py migrate
 python manage.py createsuperuser --username mycroftai --email mycroftai@localhost --noinput
+
+# Set the correct ownership again
+/bin/chown -Rv mycroft:mycroft ${webpage_summarizer_service_path}

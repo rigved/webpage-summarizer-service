@@ -19,7 +19,13 @@
 ##############################################################################
 
 
+webpage_summarizer_service_path="/opt/webpage_summarizer_service"
+webpage_summarizer_service_apiv1_path="${webpage_summarizer_service_path}/apiv1"
+
 # Start the process to reset the Django Superuser password
-cd /opt/webpage_summarizer_service/apiv1 || exit 1
+cd ${webpage_summarizer_service_apiv1_path} || exit 1
 source /opt/venvs/mycroft-core/bin/activate
 python manage.py changepassword mycroftai
+
+# Set the correct ownership again
+/bin/chown -Rv mycroft:mycroft ${webpage_summarizer_service_path}
