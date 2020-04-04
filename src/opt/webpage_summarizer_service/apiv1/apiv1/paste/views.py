@@ -19,8 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from rest_framework import viewsets
 from rest_framework import permissions
-from apiv1.webpages import Paste
-from apiv1.webpages import PasteSerializer
+from apiv1.webpages.models import Paste
+from apiv1.webpages.serializers import PasteSerializer
 
 
 class PasteViewSet(viewsets.ReadOnlyModelViewSet):
