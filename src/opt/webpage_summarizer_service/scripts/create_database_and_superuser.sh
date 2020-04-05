@@ -31,6 +31,8 @@ if [[ ! -d ${webpage_summarizer_service_secrets_path} ]]; then
     /bin/chown -R mycroft:mycroft ${webpage_summarizer_service_path}
 fi
 
+echo "Setting up the Django project..."
+
 # Initial setup for the Django project and its Superuser
 cd ${webpage_summarizer_service_apiv1_path} || exit 1
 source /opt/venvs/mycroft-core/bin/activate

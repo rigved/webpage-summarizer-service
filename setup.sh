@@ -22,12 +22,17 @@
 webpage_summarizer_service_path="/opt/webpage_summarizer_service"
 webpage_summarizer_apiv1_path="${webpage_summarizer_service_path}/apiv1"
 
+echo -ne "Performing pre-installation tasks..."
+
 # Create the required folders
 /bin/mkdir -p ${webpage_summarizer_service_path} /etc/sudoers.d
 
 # Copy the code to the correct folders and set the correct ownership
 /bin/cp -r ./src/{etc,opt} /
 /bin/chown -R mycroft:mycroft ${webpage_summarizer_service_path}
+
+echo "completed"
+echo "Installing..."
 
 # Setup the Django project
 if [[ ! -f ${webpage_summarizer_apiv1_path}/db.sqlite3 ]]; then
@@ -37,8 +42,14 @@ if [[ ! -f ${webpage_summarizer_apiv1_path}/db.sqlite3 ]]; then
     ${webpage_summarizer_scripts_path}/update_certificates.sh
 fi
 
+echo "Installation completed"
+echo -ne "Restarting Daphne ASGI application services..."
+
 # Restart the Daphne ASGI application servers
 /bin/systemctl enable webpage_summarizer_and_pastebin.service
 /bin/systemctl enable pastebin_read_only.service
 /bin/systemctl restart webpage_summarizer_and_pastebin.service
 /bin/systemctl restart pastebin_read_only.service
+
+echo "completed"
+echo -ne "\n\nSetup completed.\n\n"

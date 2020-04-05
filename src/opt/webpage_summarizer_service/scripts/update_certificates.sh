@@ -25,6 +25,8 @@ secrets="/opt/webpage_summarizer_service/apiv1/secrets"
 /bin/mkdir -p "${secrets}"
 /usr/bin/touch ~/.rnd
 
+echo "Generating new SSL Certificates..."
+
 # Generate the Root CA Key
 /usr/bin/openssl genrsa -out ${secrets}/rootCA.key 4096
 
