@@ -26,8 +26,8 @@ webpage_summarizer_apiv1_path="${webpage_summarizer_service_path}/apiv1"
 /bin/mkdir -p ${webpage_summarizer_service_path} /etc/sudoers.d
 
 # Copy the code to the correct folders and set the correct ownership
-/bin/cp -rv ./src/{etc,opt} /
-/bin/chown -Rv mycroft:mycroft ${webpage_summarizer_service_path}
+/bin/cp -r ./src/{etc,opt} /
+/bin/chown -R mycroft:mycroft ${webpage_summarizer_service_path}
 
 # Setup the Django project
 if [[ ! -f ${webpage_summarizer_apiv1_path}/db.sqlite3 ]]; then

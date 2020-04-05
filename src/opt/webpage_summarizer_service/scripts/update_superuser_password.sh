@@ -28,4 +28,4 @@ source /opt/venvs/mycroft-core/bin/activate
 python manage.py changepassword mycroftai
 
 # Set the correct ownership again
-/bin/chown -Rv mycroft:mycroft ${webpage_summarizer_service_path}
+/bin/chown -R mycroft:mycroft ${webpage_summarizer_service_path}
