@@ -43,10 +43,13 @@ class WebpageSummarizer(object):
             # Find all the paragraphs because they contain the main web page text
             page_text = ' '.join(map(lambda p: p.text, page.find_all('p')))
             title = page.title.text.strip()
-            # Generate a summary of the given web page text
-            summarized_text = summarize(page_text, ratio=summarization_ratio).strip()
-        except Exception:
-            raise
+            # Generate a summary of the given web page text if it contains more than 10 sentences
+            if len(page_text.split(' ')) > 10:
+                summarized_text = summarize(page_text, ratio=summarization_ratio).strip()
+            else:
+                summarized_text = page_text
+        except Exception as e:
+            print(e)
         finally:
             self.browser.close()
 
